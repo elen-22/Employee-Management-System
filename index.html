@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management System</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Employee Management System</h1>
+
+        <!-- search bar and filter the company -->
+        <div class="search_body">
+            <input type="text" id="search" placeholder="Search by name">
+            <select id="companyFilter">
+                <option>Filter by Company</option>
+            </select>
+        </div>
+        
+
+        <!-- Employee Form -->
+
+        <div class="employeeForm">
+            <h2>Add new Employee</h2>
+            <form id="addEmployee">
+                <input id="addedName" placeholder="Add the name" >
+                <input id="addedEmail" placeholder="Add the company email" >
+                <input id="addedCompany" placeholder="Add Employee's company name" >
+                <button id="addEmployeeBtn">Add the Employee</button> <!-- so as required work -->
+                
+            </form>
+        </div>
+
+        <!-- Employee List -->
+         
+         <div id="error"></div> <!-- this one should be invisible -->
+         <div id="employeeList">
+            
+         </div>
+    </div>
+
+    <script src="./script.js"></script>
+</body>
+
+</html>
