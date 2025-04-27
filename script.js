@@ -48,12 +48,18 @@ async function getEmployees() {
 
 function filterByCompany(){
     let selectedCompany = companyFilter.value
+    console.log(selectedCompany)
     // console.log(selectedCompany)
-    if (selectedCompany) {
+    if (selectedCompany == "Filter by Company") {
+        filteredEmployees = [...employees];
+    }
+    else if (selectedCompany) {
         filteredEmployees = employees.filter(
             (emp) => emp.company.name === selectedCompany
         );
-    } else {
+    } 
+    
+    else {
         filteredEmployees = [...employees];
     }
 
