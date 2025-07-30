@@ -16,37 +16,32 @@ async function getEmployees() {
             throw new Error('Failed to fetch employees.');
         }
         employees=await response.json();
+        console.log(employees)
         filteredEmployees=[...employees];
         // console.log(employees);
         console.log(filteredEmployees);
-        employeeList.innerHTML=filteredEmployees.map(employee=>{
-            return `
-                 <div class="employeeCard">
-            <h2>${employee.name}</h2>
-            <p><strong>Email:</strong> ${employee.email}</p>
-            <p><strong>Company:</strong> ${employee.company.name}</p>
-          </div>
-            
-            `;
-        })
-        .join("") //not to have commas
+        displayEmployees();
 
         companies=[...employees.map(employee=>employee.company.name)]
         // console.log(companies)
         companies.forEach(comp=>{
             let option=document.createElement('option')
-            option.innerHTML=comp
+            option.textContent = comp
             companyFilter.appendChild(option)
         })
     }
     catch(err){
         errorDiv.style.display="block"
-        errorDiv.innerHTML =`Error loading employees: ${err.message}`
+        errorDiv.textContent =`Error loading employees: ${err.message}`
     }
 
 }
 
+//calling the functions filter and search
+companyFilter.addEventListener('change', filterByCompany);
+
 function filterByCompany(){
+    let searchedEmployee = search.value.toLowerCase()
     let selectedCompany = companyFilter.value
     console.log(selectedCompany)
     // console.log(selectedCompany)
@@ -55,10 +50,10 @@ function filterByCompany(){
     }
     else if (selectedCompany) {
         filteredEmployees = employees.filter(
-            (emp) => emp.company.name === selectedCompany
+            //new 30.07
+            (emp) => emp.company.name === selectedCompany && emp.name.toLowerCase().includes(searchedEmployee)
         );
     } 
-    
     else {
         filteredEmployees = [...employees];
     }
@@ -66,15 +61,22 @@ function filterByCompany(){
     displayEmployees();
 }
 
-//calling the functions filter and search
-companyFilter.addEventListener('change', filterByCompany);
+
 search.addEventListener('input', searchEmployee);
 
 
 function searchEmployee(){  
     let searchedEmployee=search.value.toLowerCase()
 
-    filteredEmployees = employees.filter(employee => employee.name.toLowerCase().includes(searchedEmployee))
+    //new 30.07
+    let selectedCompany=companyFilter.value
+
+
+    filteredEmployees = employees.filter(employee =>{
+        let matchedName =employee.name.toLowerCase().includes(searchedEmployee)
+        let matchedCompany = selectedCompany === "Filter by Company" || employee.company.name.toLowerCase() === selectedCompany.toLowerCase()
+        return matchedName && matchedCompany
+    })
     //calling the function here
     displayEmployees()
 }
@@ -83,13 +85,17 @@ addEmployeeBtn.addEventListener('click', (event)=>{
     event.preventDefault()
     let addedName = document.querySelector("#addedName").value;
     let addedEmail = document.querySelector("#addedEmail").value;
-    let addedCompany = document.querySelector("#addedCompany").value;
+    let addedCompanyInput = document.querySelector("#addedCompany").value.trim();
+
+    let addedCompany = addedCompanyInput.charAt(0).toUpperCase() + addedCompanyInput.slice(1).toLowerCase();
 
     if (addedName === '' || addedEmail === '' || addedCompany === '') {
         alert("Please fill in the fields before adding!");
     } else {
+        console.log(addedCompany)
+        const maxId = employees.length > 0 ? Math.max(...employees.map(emp => emp.id || 0)) : 0;
         let newEmployee = {
-            id: employees.length + 1, // Assign a new ID for the employee
+            id: maxId + 1,
             name: addedName,
             email: addedEmail,
             company: { name: addedCompany },

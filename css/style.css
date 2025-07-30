@@ -40,15 +40,18 @@ button:hover {
     cursor: pointer;
 }
 
-/* .employeeList {
-    /* display: flex;
+button:active{
+    transform: translateY(2px);
+}
+ /* .employeeList {
+    display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%; */
+    height: 100%; 
     /* gap: 20px; */
     /* margin-top: 30px; */
-    /* background-color: white; */
-/*} */
+    /* background-color: white; 
+} */
 
 .employeeCard {
     background-color: white;
