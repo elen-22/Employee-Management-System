@@ -100,6 +100,7 @@ addEmployeeBtn.addEventListener('click', (event)=>{
             email: addedEmail,
             company: { name: addedCompany },
         };
+        console.log(newEmployee)
         employees.push(newEmployee);
         filteredEmployees.push(newEmployee);
         if (!companies.includes(addedCompany)) {
@@ -107,6 +108,7 @@ addEmployeeBtn.addEventListener('click', (event)=>{
             let option = document.createElement('option');
             option.innerHTML = addedCompany;
             companyFilter.appendChild(option);
+            //change with innerHTML=``
         }
          // Call the display function
         displayEmployees();
